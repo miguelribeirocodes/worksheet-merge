@@ -1,0 +1,42 @@
+# Build and distribution directories
+build/
+dist/
+*.spec
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+*.egg-info/
+dist/
+build/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+.env
+.env.local
+
+# Database
+meu_banco_de_dados.db
+*.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Test data
+testes/
+tests/
+test_data/
