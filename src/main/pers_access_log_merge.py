@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from utils import validar_entrada, validar_colunas, set_path, gerar_texto_dicas_dinamico
 
 # Configurações de colunas - Edite aqui para adicionar/remover colunas
-COLUNAS_PESSOAS = ["Nome do Cargo", "Tipo de Documento", "Número do Documento", "ID Pessoal", "Observações"]
+COLUNAS_PESSOAS = ["Nome do Cargo", "Tipo de Documento", "Número do Documento", "ID Pessoal", "Observação", "Observação 1"]
 COLUNAS_REGISTROS = ["Horário", "Nome da Área", "Nome do Dispositivo", "Descrição do Evento", "ID Pessoal", "Nome", "Sobrenome", "Nome do Departamento"]
 
 # Colunas para seleção na query (tabela_coluna)
@@ -33,7 +33,8 @@ COLUNAS_SELECT_REGISTROS = [
     "Pessoas.\"Nome do Cargo\"",
     "Pessoas.\"Tipo de Documento\"",
     "Pessoas.\"Número do Documento\"",
-    "Pessoas.\"Observações\""
+    "Pessoas.\"Observação\"",
+    "Pessoas.\"Observação 1\""
 ]
 
 

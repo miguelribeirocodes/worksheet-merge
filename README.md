@@ -22,7 +22,7 @@ O projeto oferece dois utilitários complementares:
 - Exporta resultado em arquivo Excel ordenado por timestamp (mais recente primeiro)
 
 **Colunas esperadas:**
-- **Pessoas**: Nome do Cargo, Tipo de Documento, Número do Documento, ID Pessoal, Observações
+- **Pessoas**: Nome do Cargo, Tipo de Documento, Número do Documento, ID Pessoal, Observação, Observação 1
 - **Registros**: Horário, Nome da Área, Nome do Dispositivo, Descrição do Evento, ID Pessoal, Nome, Sobrenome, Nome do Departamento
 
 ## 🚀 Como Usar

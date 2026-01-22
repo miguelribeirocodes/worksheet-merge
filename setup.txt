@@ -1,0 +1,3 @@
+pip install pyinstaller
+pyinstaller --onefile --windowed --name "Mesclar Niveis de Acesso" src/main/pers_access_level_merge.py
+pyinstaller --onefile --windowed --name "Mesclar Registros de Acesso" src/main/pers_access_log_merge.py
