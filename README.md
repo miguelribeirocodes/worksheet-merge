@@ -4,26 +4,24 @@ Uma aplicação desktop para mesclar e processar dados de acesso e pessoal do si
 
 ## 🎯 Funcionalidades
 
-O projeto oferece dois utilitários complementares:
+Aplicativo desktop unificado para mesclar dados de acesso do ZKBio CVSecurity:
 
-### 1. **Mesclar Níveis de Acesso**
-- Combina dados de pessoal com níveis de acesso
-- Realiza LEFT JOIN baseado em ID Pessoal
-- Exporta resultado em arquivo Excel
-- Ordena por Nome do Nível em ordem crescente
+### **Aplicativo com Interface de Checkboxes**
+- Interface intuitiva tipo ZKBio CVSecurity
+- Seleção dinâmica de colunas via checkboxes
+- Descoberta automática de colunas disponíveis
+- Organização de colunas por categorias (Informações Básicas, Documentação, Datas, etc)
+- Suporte a colunas customizadas não previstas
+- Salvamento e carregamento de configurações reutilizáveis
+- Merge parametrizado com validação automática
+- Suporte completo a LEFT JOIN entre planilhas
+- Ordenação flexível dos resultados
 
-**Colunas esperadas:**
-- **Pessoas**: Nome, Sobrenome, Nome do Departamento, Número do Documento, Nome do Cargo, ID Pessoal
-- **Níveis de Acesso**: Nome do Nível, ID Pessoal
-
-### 2. **Mesclar Registros de Acesso**
-- Combina dados de pessoal com logs de acesso
-- Enriquece registros com informações pessoais
-- Exporta resultado em arquivo Excel ordenado por timestamp (mais recente primeiro)
-
-**Colunas esperadas:**
-- **Pessoas**: Nome do Cargo, Tipo de Documento, Número do Documento, ID Pessoal, Observação, Observação 1
-- **Registros**: Horário, Nome da Área, Nome do Dispositivo, Descrição do Evento, ID Pessoal, Nome, Sobrenome, Nome do Departamento
+**Casos de Uso:**
+- Mesclar Pessoas + Níveis de Acesso
+- Mesclar Pessoas + Registros de Acesso
+- Mesclar Pessoas + Qualquer outro arquivo do ZKBio
+- Customização total de colunas no resultado final
 
 ## 🚀 Como Usar
 
@@ -55,11 +53,8 @@ pip install -r requirements.txt
 #### Execução
 
 ```bash
-# Mesclar Níveis de Acesso
-python src/main/pers_access_level_merge.py
-
-# Mesclar Registros de Acesso
-python src/main/pers_access_log_merge.py
+# Iniciar o aplicativo
+python src/main/app.py
 ```
 
 ## 📦 Estrutura do Projeto
@@ -67,18 +62,20 @@ python src/main/pers_access_log_merge.py
 ```
 worksheet-merge/
 ├── src/
-│   ├── main/                           # Scripts principais
+│   ├── main/
 │   │   ├── __init__.py
-│   │   ├── pers_access_level_merge.py  # Mesclar níveis de acesso
-│   │   └── pers_access_log_merge.py    # Mesclar registros de acesso
-│   └── utils/                          # Módulo de utilitários
+│   │   └── app.py                      # Aplicativo principal unificado
+│   └── utils/
 │       ├── __init__.py
-│       ├── validators.py               # Funções de validação
-│       └── ui_helpers.py               # Funções auxiliares de UI
-├── setup.py                            # Configuração para build
+│       ├── validators.py               # Validações de entrada e colunas
+│       ├── ui_helpers.py               # Componentes Tkinter (CategoryFrame, ScrollableFrame)
+│       ├── merge_engine.py             # Engine de merge parametrizado
+│       ├── column_loader.py            # Descoberta e categorização dinâmica de colunas
+│       └── config_manager.py           # Persistência de configurações
+├── testes/                             # Dados de teste (exemplos do ZKBio)
+├── README.md                           # Este arquivo
 ├── requirements.txt                    # Dependências Python
-├── .gitignore                          # Arquivos ignorados pelo Git
-└── README.md                           # Este arquivo
+└── .gitignore                          # Arquivos ignorados pelo Git
 ```
 
 ## 🔧 Compilando um Executável
@@ -102,27 +99,46 @@ python setup.py build
 - **tkinter**: Interface gráfica (já vem com Python)
 - **sqlite3**: Banco de dados para merges (já vem com Python)
 
-## ⚙️ Configuração de Colunas
+## ⚙️ Usando o Novo Aplicativo com Checkboxes
 
-Para adicionar ou remover colunas do processo de mesclagem, edite as constantes no topo de cada script:
+### Passo a Passo:
 
-```python
-# Exemplo: src/main/pers_access_level_merge.py
+1. **Inicie o Aplicativo:**
+   ```bash
+   python src/main/app.py
+   ```
 
-# Colunas obrigatórias de cada planilha
-COLUNAS_PESSOAS = ["Nome", "Sobrenome", ..., "ID Pessoal"]
-COLUNAS_ACESSOS = ["Nome do Nível", "ID Pessoal"]
+2. **Selecione os Arquivos:**
+   - Clique em "Selecionar" para escolher o arquivo de **Pessoas** (.xls ou .xlsx)
+   - Clique em "Selecionar" para escolher o arquivo **Secundário** (Registros ou Níveis de Acesso)
+   - As colunas disponíveis serão carregadas automaticamente
 
-# Colunas para seleção na query SQL
-COLUNAS_SELECT_ACESSOS = [
-    "Nivel.\"Nome do Nível\"",
-    "Nivel.\"ID Pessoal\"",
-    "Pessoas.\"Nome\"",
-    # ... adicione mais aqui
-]
-```
+3. **Escolha as Colunas:**
+   - Organize suas seleções usando as duas abas (Pessoas e Registros/Níveis)
+   - As colunas são organizadas por categorias (Informações Básicas, Documentação, etc)
+   - Marque/desmarque os checkboxes conforme desejado
+   - **"ID Pessoal" é obrigatório** em ambas as abas (sempre pré-selecionado)
+   - Opcionalmente, adicione colunas customizadas não previstas
 
-As dicas de UI serão automaticamente atualizadas com base nessas configurações.
+4. **Configure Opções:**
+   - Escolha a coluna para ordenação (ex: Horário, Nome do Nível)
+   - Selecione Crescente ou Decrescente
+
+5. **Salve ou Carregue Configurações:**
+   - Digite um nome e clique "Salvar" para guardar suas seleções
+   - Use o dropdown para "Carregar" uma configuração salva anteriormente
+   - Clique "Excluir" para remover uma configuração
+
+6. **Realize o Merge:**
+   - Clique no botão "MESCLAR"
+   - Escolha o local para salvar o arquivo resultado
+   - O sistema criará um novo arquivo Excel com as colunas selecionadas
+
+### Notas:
+- As configurações são salvas em `~/.worksheet-merge/configs.json`
+- O sistema valida automaticamente se as colunas selecionadas existem nas planilhas
+- O merge utiliza LEFT JOIN, preservando todos os registros da planilha secundária
+
 
 ## ✅ Validações Automáticas
 
